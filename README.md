@@ -103,6 +103,3 @@ router_a: 10.0.2.0/24 distance=1 via 10.0.1.2
 
 After stopping Router C, Router A should keep its direct Docker networks and continue to learn `10.0.2.0/24` through Router B. Routes that depended specifically on Router C are removed from the kernel route table after timeout.
 
-## GitHub Link
-
-https://github.com/Rijwith/Distance-Vector-Router.git
