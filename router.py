@@ -17,7 +17,7 @@ NEIGHBORS = [ip.strip() for ip in os.getenv("NEIGHBORS", "").split(",") if ip.st
 
 PORT = int(os.getenv("PORT", "5000"))
 UPDATE_INTERVAL = int(os.getenv("UPDATE_INTERVAL", "2"))
-ROUTE_TIMEOUT = int(os.getenv("ROUTE_TIMEOUT", "6"))
+ROUTE_TIMEOUT = int(os.getenv("ROUTE_TIMEOUT", "8"))
 
 VERSION = 1.0
 INFINITY = 16
