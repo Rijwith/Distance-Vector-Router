@@ -1,6 +1,7 @@
 import ipaddress
 import json
 import os
+import signal
 import socket
 import subprocess
 import threading
@@ -400,7 +401,20 @@ def remove_expired_routes():
 # Entry point
 # -----------------------------
 
+def shutdown(signum, frame):
+    """Flush all learned kernel routes on clean shutdown so Docker can
+    reuse the network namespace without IP conflicts on the next run."""
+    with table_lock:
+        for subnet, (dist, hop) in list(routing_table.items()):
+            if hop != DIRECT_ROUTE:
+                run_route_command(f"ip route del {subnet} 2>/dev/null")
+    raise SystemExit(0)
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, shutdown)
+    signal.signal(signal.SIGINT, shutdown)
+
     add_directly_connected_routes()
 
     threading.Thread(target=broadcast_updates,   daemon=True).start()
